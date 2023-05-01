@@ -11,4 +11,4 @@ Cada 5 minut execute
 Cada 6 hores execute el programa reloj1.py que actualitza la hora desde el GPS
 * */6 * * * sudo python /home/repsol/reloj1.py
 
-No cal restart resels camvis es fan al moment
+No cal restart els camvis es fan al moment.
