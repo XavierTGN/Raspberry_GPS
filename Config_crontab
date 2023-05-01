@@ -2,7 +2,7 @@ Traballar amb el Crontab
 
 
 Editar tasques.
->sudo crontag -e
+>sudo crontab -e
 
 
 Afegir tasca:
@@ -11,4 +11,7 @@ Cada 5 minut execute
 Cada 6 hores execute el programa reloj1.py que actualitza la hora desde el GPS
 * */6 * * * sudo python /home/repsol/reloj1.py
 
+Gravar el fitxer Crtl+O
+Surti Crtl+X
+Al surtir, si ha anat be sortira: crontab: installing new crontab
 No cal restart els camvis es fan al moment.
