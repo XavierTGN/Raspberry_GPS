@@ -1,0 +1,54 @@
+import os
+import sys
+import time
+import datetime
+
+from gps import *
+from dateutil import tz
+# Leer valor del GSp y actualizar la hora de la Raspberry
+#
+#
+#  Xavier Banús  (SIEMSA)
+# Creacion del programa 24/4/23
+
+print ("Leer el valor del GPS to GPS UTC time***************")
+
+try:
+  gpsd = gps(mode=WATCH_ENABLE)
+except:
+  print ("ERROR: El GPS No funciona, time not set!!")
+  sys.exit()
+
+while True:
+  #wait until the next GPSD time tick
+  gpsd.next()
+  if gpsd.utc != None and gpsd.utc != '':
+    #gpsd.utc is formatted like"2015-04-01T17:32:04.000Z"
+    #convert it to a form the date -u command will accept: "20140401 17:32:04"
+    #use python slice notation [start:end] (where end desired end char + 1)
+    #   gpsd.utc[0:4] is "2015"
+    #   gpsd.utc[5:7] is "04"
+    #   gpsd.utc[8:10] is "01"
+    gpsutc = gpsd.utc[0:4] +"-"+  gpsd.utc[5:7] +"-" + gpsd.utc[8:10] +"T"+ gpsd.utc[11:19]+"Z"
+
+    #print ("gpsd :%s"%gpsd) 
+
+    #print ("gpsutc: %s" %gpsutc)
+    #os.system("sudo date --set='%s'" %gpsutc)
+    #sys.exit()
+
+
+    from_zone = tz.gettz('UTC')
+    to_zone = tz.gettz('Europe/Madrid')
+    json_data = {'time': gpsutc } # "2021-10-08T08:17:42Z"} 
+    print("json--->%s" %json_data)
+    utc = datetime.datetime.strptime(json_data['time'], "%Y-%m-%dT%H:%M:%SZ")
+    utc = utc.replace(tzinfo=from_zone)
+    cst = utc.astimezone(to_zone)
+    print("utc-->%s" %utc)
+    print("cst-->%s" %cst)
+
+    os.system("sudo date --set='%s'" %cst)
+    print ("****************************************************")
+    sys.exit()
+
