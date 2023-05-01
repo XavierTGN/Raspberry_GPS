@@ -1,0 +1,14 @@
+Traballar amb el Crontab
+
+
+Editar tasques.
+>sudo crontag -e
+
+
+Afegir tasca:
+Cada 5 minut execute
+*/5 * * * * echo `date` >> /home/repsol/crontabkkk.log
+Cada 6 hores execute el programa reloj1.py que actualitza la hora desde el GPS
+* */6 * * * sudo python /home/repsol/reloj1.py
+
+No cal restart resels camvis es fan al moment
